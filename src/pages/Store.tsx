@@ -1,18 +1,15 @@
-import { Col, Row } from "react-bootstrap"
-import { StoreItem } from "../components/StoreItem"
-import storeItems from "../data/items.json"
+import React from "react";
+import { StoreItem } from "../components/StoreItem";
+import storeItems from "../data/items.json";
 
 export function Store() {
   return (
-    <>
-      <h1>Store</h1>
-      <Row md={2} xs={1} lg={3} className="g-3">
+    <div className="container mx-auto px-4">
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {storeItems.map(item => (
-          <Col key={item.id}>
-            <StoreItem {...item} />
-          </Col>
+          <StoreItem key={item.id} {...item} />
         ))}
-      </Row>
-    </>
-  )
+      </div>
+    </div>
+  );
 }

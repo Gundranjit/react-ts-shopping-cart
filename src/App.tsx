@@ -1,24 +1,24 @@
-import { Routes, Route } from "react-router-dom"
-import { Container } from "react-bootstrap"
-import { Home } from "./pages/Home"
-import { Store } from "./pages/Store"
-import { About } from "./pages/About"
-import { Navbar } from "./components/Navbar"
-import { ShoppingCartProvider } from "./context/ShoppingCartContext"
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { Store } from './pages/Store';
+import { About } from './pages/About';
+import { Navbar } from './components/Navbar';
+import { ShoppingCartProvider } from './context/ShoppingCartContext';
 
-function App() {
+const App: React.FC = () => {
   return (
     <ShoppingCartProvider>
       <Navbar />
-      <Container className="mb-4">
+      <div className="container mx-auto mb-4 p-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<Store />} />
           <Route path="/about" element={<About />} />
         </Routes>
-      </Container>
+      </div>
     </ShoppingCartProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
