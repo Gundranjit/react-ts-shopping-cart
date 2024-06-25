@@ -1,45 +1,41 @@
-import { Button, Stack } from "react-bootstrap"
-import { useShoppingCart } from "../context/ShoppingCartContext"
-import storeItems from "../data/items.json"
-import { formatCurrency } from "../utilities/formatCurrency"
+import React from 'react';
+import { useShoppingCart } from '../context/ShoppingCartContext';
+import storeItems from '../data/items.json';
+import { formatCurrency } from '../utilities/formatCurrency';
 
 type CartItemProps = {
-  id: number
-  quantity: number
-}
+  id: number;
+  quantity: number;
+};
 
 export function CartItem({ id, quantity }: CartItemProps) {
-  const { removeFromCart } = useShoppingCart()
-  const item = storeItems.find(i => i.id === id)
-  if (item == null) return null
+  const { removeFromCart } = useShoppingCart();
+  const item = storeItems.find((i) => i.id === id);
+  if (!item) return null;
 
   return (
-    <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
+    <div className="flex justify-center items-center gap-2 mb-2">
       <img
-        src={item.imgUrl}
-        style={{ width: "125px", height: "75px", objectFit: "cover" }}
+        src={item.image}
+        alt={item.title}
+        className="w-32 h-20 object-cover"
       />
-      <div className="me-auto">
-        <div>
-          {item.name}{" "}
+      <div className="flex-1">
+        <div className="font-medium">
+          {item.title}{' '}
           {quantity > 1 && (
-            <span className="text-muted" style={{ fontSize: ".65rem" }}>
-              x{quantity}
-            </span>
+            <span className="text-gray-500 text-md">x{quantity}</span>
           )}
         </div>
-        <div className="text-muted" style={{ fontSize: ".75rem" }}>
-          {formatCurrency(item.price)}
-        </div>
+        <div className="text-gray-500 text-xs">{formatCurrency(item.price)}</div>
       </div>
-      <div> {formatCurrency(item.price * quantity)}</div>
-      <Button
-        variant="outline-danger"
-        size="sm"
+      <div>{formatCurrency(item.price * quantity)}</div>
+      <button
+        className="text-red-600 border border-red-600 rounded p-1 text-sm hover:bg-red-100"
         onClick={() => removeFromCart(item.id)}
       >
         &times;
-      </Button>
-    </Stack>
-  )
+      </button>
+    </div>
+  );
 }

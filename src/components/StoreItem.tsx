@@ -1,67 +1,68 @@
-import { Button, Card } from "react-bootstrap"
-import { useShoppingCart } from "../context/ShoppingCartContext"
-import { formatCurrency } from "../utilities/formatCurrency"
+import React from "react";
+import { useShoppingCart } from "../context/ShoppingCartContext";
+import { formatCurrency } from "../utilities/formatCurrency";
 
 type StoreItemProps = {
-  id: number
-  name: string
-  price: number
-  imgUrl: string
-}
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+};
 
-export function StoreItem({ id, name, price, imgUrl }: StoreItemProps) {
+export function StoreItem({ id, title, price, image }: StoreItemProps) {
   const {
     getItemQuantity,
     increaseCartQuantity,
     decreaseCartQuantity,
     removeFromCart,
-  } = useShoppingCart()
-  const quantity = getItemQuantity(id)
+  } = useShoppingCart();
+  const quantity = getItemQuantity(id);
 
   return (
-    <Card className="h-100">
-      <Card.Img
-        variant="top"
-        src={imgUrl}
-        height="200px"
-        style={{ objectFit: "cover" }}
-      />
-      <Card.Body className="d-flex flex-column">
-        <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <span className="fs-2">{name}</span>
-          <span className="ms-2 text-muted">{formatCurrency(price)}</span>
-        </Card.Title>
+    <div className="max-w-sm rounded overflow-hidden shadow-lg flex flex-col h-full">
+      <img className="w-full h-48 object-cover" src={image} alt={title} />
+      <div className="p-4 flex flex-col flex-grow">
+        <div className="flex justify-between items-baseline mb-4">
+          <span className="text-xl font-semibold">{title}</span>
+          <span className="text-gray-500">{formatCurrency(price)}</span>
+        </div>
         <div className="mt-auto">
           {quantity === 0 ? (
-            <Button className="w-100" onClick={() => increaseCartQuantity(id)}>
-              + Add To Cart
-            </Button>
-          ) : (
-            <div
-              className="d-flex align-items-center flex-column"
-              style={{ gap: ".5rem" }}
+            <button
+              className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              onClick={() => increaseCartQuantity(id)}
             >
-              <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ gap: ".5rem" }}
-              >
-                <Button onClick={() => decreaseCartQuantity(id)}>-</Button>
-                <div>
-                  <span className="fs-3">{quantity}</span> in cart
-                </div>
-                <Button onClick={() => increaseCartQuantity(id)}>+</Button>
+              + Add To Cart
+            </button>
+          ) : (
+            <div className="flex flex-col items-center space-y-2">
+              <div className="flex items-center justify-center space-x-2">
+                <button
+                  className="bg-gray-300 text-gray-700 py-1 px-3 rounded"
+                  onClick={() => decreaseCartQuantity(id)}
+                >
+                  -
+                </button>
+                <span className="text-lg">{quantity}</span>
+                <span>in cart</span>
+                <button
+                  className="bg-gray-300 text-gray-700 py-1 px-3 rounded"
+                  onClick={() => increaseCartQuantity(id)}
+                >
+                  +
+                </button>
               </div>
-              <Button
+              <button
+                className="bg-red-500 text-white py-1 px-4 rounded text-sm"
                 onClick={() => removeFromCart(id)}
-                variant="danger"
-                size="sm"
               >
                 Remove
-              </Button>
+              </button>
             </div>
           )}
         </div>
-      </Card.Body>
-    </Card>
-  )
+      </div>
+    </div>
+  );
 }
+
